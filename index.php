@@ -5,13 +5,11 @@ require __DIR__ . '/vendor/autoload.php';
 use \App\Controller\Pages\Home;
 
 
-$obRequest = new \App\Http\Response;
-echo '<pre>';
-print_r($obRequest);
-echo '</pre>';
+$obResponse = new \App\Http\Response(200, 'Sucesso');
+$obResponse->sendResponse();
 //echo Page::getPage();
 
-
+exit;
 echo Home::getHome();
 
 ?>
