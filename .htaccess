@@ -1,0 +1,6 @@
+RewriteEngine On
+
+ErrorDocument 404 /ApiRestMVC/error404.html
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,NC]
