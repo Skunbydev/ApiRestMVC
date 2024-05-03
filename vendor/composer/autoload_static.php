@@ -10,6 +10,7 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         'W' => 
         array (
             'WilliamCosta\\DotEnv\\' => 20,
+            'WilliamCosta\\DatabaseManager\\' => 29,
         ),
         'A' => 
         array (
@@ -21,6 +22,10 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
         'WilliamCosta\\DotEnv\\' => 
         array (
             0 => __DIR__ . '/..' . '/william-costa/dot-env/src',
+        ),
+        'WilliamCosta\\DatabaseManager\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/william-costa/database-manager/src',
         ),
         'App\\' => 
         array (
