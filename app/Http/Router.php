@@ -4,6 +4,7 @@ namespace App\Http;
 
 use \Closure;
 use \Exception;
+use \ReflectionFunction;
 
 class Router
 {
@@ -36,10 +37,16 @@ class Router
       }
     }
 
+    $params['variables'] = [];
+
+    $patternVariable = '/{(.*?)}/';
+    if (preg_match_all($patternVariable, $route, $matches)) {
+      $route = preg_replace($patternVariable, '(.*?)', $route);
+      $params['variables'] = $matches[1];
+    }
+
     $patternRoute = '/^' . str_replace('/', '\/', $route) . '$/';
     $this->routes[$patternRoute][$method] = $params;
-
-
   }
   public function get($route, $params = [])
   {
@@ -72,10 +79,15 @@ class Router
     $httpMethod = $this->request->getHttpMethod();
 
     foreach ($this->routes as $patternRoute => $methods) {
-      if (preg_match($patternRoute, $uri)) {
-        if ($methods[$httpMethod]) {
+      if (preg_match($patternRoute, $uri, $matches)) {
+        if (isset($methods[$httpMethod])) {
+          unset($matches[0]);
+          $keys = $methods[$httpMethod]['variables'];
+          $methods[$httpMethod]['variables'] = array_combine($keys, $matches);
+          $methods[$httpMethod]['variables']['request'] = $this->request;
           return $methods[$httpMethod];
         }
+
         throw new Exception("Metódo não é permitido", 405);
       }
     }
@@ -86,11 +98,17 @@ class Router
   {
     try {
       $route = $this->getRoute();
+
       if (!isset($route['controller'])) {
         throw new Exception("A URL não pôde ser processada", 500);
       }
-
       $args = [];
+      $reflection = new ReflectionFunction($route['controller']);
+      foreach ($reflection->getParameters() as $parameter) {
+        $name = $parameter->getName();
+        $args[$name] = $route['variables'][$name] ?? '';
+
+      }
       return call_user_func_array($route['controller'], $args);
     } catch (Exception $e) {
       return new Response($e->getCode(), $e->getMessage());

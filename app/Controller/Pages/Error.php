@@ -1,25 +1,20 @@
 <?php
 namespace App\Controller\Pages;
 
-
 use \App\Utils\View;
 use \App\Model\Entity\Organization;
 
-
-class About extends Page
+class Error extends Page
 {
-
-  public static function getAbout()
+  public static function getError()
   {
     $obOrganization = new Organization;
-    $content = View::render('pages/about', [
+    return View::render('pages/erro', [
       'name' => $obOrganization->name,
       'description' => $obOrganization->description,
       'site' => $obOrganization->site,
     ]);
-    return parent::getPage('SOBRE - SKUNBY', $content);
   }
-
 }
 
 ?>
