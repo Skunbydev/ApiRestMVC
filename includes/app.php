@@ -8,17 +8,14 @@ use \WilliamCosta\DatabaseManager\Database;
 Environment::load(__DIR__ . '/../');
 
 
-foreach ($_ENV as $key => $value) {
-  echo "$key=$value" . PHP_EOL;
-}
 Database::config(
-  getEnv('DB_HOST'),
-  getEnv('DB_NAME'),
-  getEnv('DB_USER'),
-  getEnv('DB_PASS'),
-  getEnv('DB_PORT')
+  getenv('DB_HOST'),
+  getenv('DB_NAME'),
+  getenv('DB_USER'),
+  getenv('DB_PASS'),
+  getenv('DB_PORT')
 );
-define('URL', getEnv('URL'));
+define('URL', getenv('URL'));
 
 View::init([
   'URL' => URL
