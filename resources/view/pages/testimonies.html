@@ -1,11 +1,12 @@
 <div class="container">
   <section id="testimonies">
     {{itens}}
+    {{pagination}}
   </section>
 
   <section id="form">
     <h3>Envie seu depoimento</h3>
-    <form method="post">
+    <form method="post" action="?page=1">
       <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome_usuario" name="nome_usuario" required>

@@ -9,7 +9,7 @@ use \WilliamCosta\DatabaseManager\Pagination;
 
 class Testimony extends Page
 {
-  private static function getTestimonyItens($request)
+  private static function getTestimonyItens($request, &$obPagination)
   {
     $itens = '';
     $quantidade_total = EntityTestimony::getTestimonies(null, null, null, 'COUNT(*) as qtd')->fetchObject()->qtd;
@@ -40,7 +40,8 @@ class Testimony extends Page
   public static function getTestimonies($request)
   {
     $content = View::render('pages/testimonies', [
-      'itens' => self::getTestimonyItens($request)
+      'itens' => self::getTestimonyItens($request, $obPagination),
+      'pagination' => self::getPagination($request, $obPagination),
     ]);
     return parent::getPage('Depoimentos', $content);
   }
