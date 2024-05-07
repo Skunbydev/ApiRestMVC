@@ -17,7 +17,7 @@ class Router
 
   public function __construct($url)
   {
-    $this->request = new Request();
+    $this->request = new Request($this);
     $this->url = $url;
     $this->setPrefix();
   }
@@ -107,6 +107,7 @@ class Router
       foreach ($reflection->getParameters() as $parameter) {
         $name = $parameter->getName();
         $args[$name] = $route['variables'][$name] ?? '';
+
 
       }
       return call_user_func_array($route['controller'], $args);

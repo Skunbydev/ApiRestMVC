@@ -4,14 +4,20 @@ namespace App\Controller\Pages;
 
 use \App\Utils\View;
 use \App\Model\Entity\Testimony as EntityTestimony;
-use \App\Model\Entity\Organization;
+use \WilliamCosta\DatabaseManager\Pagination;
+
 
 class Testimony extends Page
 {
-  private static function getTestimonyItens()
+  private static function getTestimonyItens($request)
   {
     $itens = '';
-    $results = EntityTestimony::getTestimonies(null, 'id DESC');
+    $quantidade_total = EntityTestimony::getTestimonies(null, null, null, 'COUNT(*) as qtd')->fetchObject()->qtd;
+    $queryParams = $request->getQueryParams();
+    $paginaAtual = $queryParams['page'] ?? 1;
+
+    $obPagination = new Pagination($quantidade_total, $paginaAtual, 3);
+    $results = EntityTestimony::getTestimonies(null, 'id DESC', $obPagination->getLimit());
     if ($results->rowCount() == 0) {
       $itens = '<div class="card text-dark mb-3">
       <h5 class="card-header"></h5>
@@ -31,14 +37,12 @@ class Testimony extends Page
     }
     return $itens;
   }
-  public static function getTestimonies()
+  public static function getTestimonies($request)
   {
-    $obOrganization = new Organization;
-
     $content = View::render('pages/testimonies', [
-      'itens' => self::getTestimonyItens()
+      'itens' => self::getTestimonyItens($request)
     ]);
-    return parent::getPage('Depoimentos > ', $content);
+    return parent::getPage('Depoimentos', $content);
   }
   public static function insertTestimony($request)
   {
@@ -46,9 +50,11 @@ class Testimony extends Page
     $obTestimony = new EntityTestimony;
     $obTestimony->nome_usuario = $postVars['nome_usuario'];
     $obTestimony->mensagem_usuario = $postVars['mensagem_usuario'];
-    echo "<script>alert('Depoimento enviado com sucesso')</script>";
+
+    echo "<script>alert('Depoimento enviado com sucesso');</script>";
+
     $obTestimony->cadastrar();
-    return self::getTestimonies();
+    return self::getTestimonies($request);
   }
 }
 
