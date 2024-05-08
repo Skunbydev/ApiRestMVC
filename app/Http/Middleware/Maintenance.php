@@ -5,10 +5,10 @@ class Maintenance
 {
   public function handle($request, $next)
   {
-    echo '<pre>';
-    print_r($request);
-    echo '</pre>';
-    exit();
+    if (getenv('MAINTENANCE') == 'true') {
+      throw new \Exception("Página em manuntenção, tente novamente mais tarde.", 200);
+    }
+    return $next($request);
   }
 }
 ?>

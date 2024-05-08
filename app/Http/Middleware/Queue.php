@@ -7,6 +7,8 @@ use PhpParser\Node\Expr\Print_;
 class Queue
 {
   private static $map = [];
+
+  private static $default = [];
   private $middlewares = [];
 
   private $controller;
@@ -15,13 +17,18 @@ class Queue
 
   public function __construct($middlewares, $controller, $controllerArgs)
   {
-    $this->middlewares = $middlewares;
+    $this->middlewares = array_merge(self::$default, $middlewares);
     $this->controller = $controller;
     $this->controllerArgs = $controllerArgs;
   }
   public static function setMap($map)
   {
     self::$map = $map;
+  }
+
+  public static function setDefault($default)
+  {
+    self::$default = $default;
   }
   public function next($request)
   {
@@ -37,6 +44,10 @@ class Queue
     $next = function ($request) use ($queue) {
       return $queue->next($request);
     };
+
+
+    return (new self::$map[$middleware])->handle($request, $next);
+
   }
 }
 ?>
