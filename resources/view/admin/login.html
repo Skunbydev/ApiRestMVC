@@ -1,0 +1,21 @@
+<div class="d-flex justify-content-center">
+  <div class="card mt-3 text-dark text-center" style="width: 400px;">
+    <div class="card-header bg-danger text-white">
+      <h1 class="mb-0">Login</h1>
+    </div>
+    <div class="card-bordy">
+      {{status}}
+      <form action="" method="POST">
+        <div class="form-group">
+          <label for="email_usuario">E-mail</label>
+          <input type="email" class="form-control" name="email_usuario" id="email_usuario" placeholder="email@teste.com" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="senha_usuario">Senha</label>
+          <input type="password" name="senha_usuario" id="senha_usuario" class="form-control" placeholder="*****" required autofocus>
+        </div>
+        <button type="submit" class="btn btn-lg btn-danger" style="margin-top: 20px; margin-bottom: 20px;">Entrar</button>
+      </form>
+    </div>
+  </div>
+</div>
