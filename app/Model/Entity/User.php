@@ -17,5 +17,9 @@ class User
   {
     return (new Database('usuarios'))->select('email_usuario = "' . $email_usuario . '"')->fetchObject(self::class);
   }
+  public static function getUserByPassword($senha_usuario)
+  {
+    return (new Database('usuarios'))->select('senha_usuario = "' . $senha_usuario . '"')->fetchObject(self::class);
+  }
 }
 ?>

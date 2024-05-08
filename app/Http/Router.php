@@ -7,6 +7,7 @@ use \Exception;
 use \ReflectionFunction;
 use \App\Http\Middleware\Queue as MiddlewareQueue;
 
+
 class Router
 {
   private $url = '';
@@ -119,6 +120,12 @@ class Router
   public function getCurrentUrl()
   {
     return $this->url . $this->getUri();
+  }
+  public function redirect($route)
+  {
+    $url = $this->url . $route;
+    header('location:' . $url);
+    exit;
   }
 }
 
